@@ -7,22 +7,23 @@ const signToken = (req, res) => {
     password: 'test',
   };
 
-  const token = jwt.sign(user, process.env.JWT_SECRET);
+  const token = jwt.sign(
+    {
+      username: user.username,
+      _id: user._id,
+    },
+    process.env.JWT_SECRET
+  );
 
   res.json({ message: "You are Auth'd", token });
 };
-const verifyToken = (req,res) => {
-    try {
-    const token = req.headers.authorization.split(' ')[1];
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+const verifyToken = (req, res) => {
+  const token = req.headers.authorization.split(' ')[1];
 
-    res.json({ decoded });
-  } catch (err) {
-    res.status(401).json({ err: 'Invalid token.' });
-  }
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  res.json({ message: 'Token is valid', token: decoded });
 };
-
 
 module.exports = {
   signToken,
