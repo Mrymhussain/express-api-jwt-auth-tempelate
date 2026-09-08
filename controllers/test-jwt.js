@@ -11,7 +11,10 @@ const signToken = (req, res) => {
 
   res.json({ message: "You are Auth'd", token });
 };
-
+ const verifyToken = (req,res)=> {
+  res.json({message: 'Token is valid'});
+}
 module.exports = {
   signToken,
+  verifyToken,
 };

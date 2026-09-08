@@ -13,6 +13,7 @@ const testJwtCtrl = require('./controllers/test-jwt');
 
 
 
+
 mongoose.connect(process.env.MONGODB_URL);
 
 mongoose.connection.on('connected', () => {
@@ -26,6 +27,7 @@ app.use(logger('dev'));
 // Routes go here
 
 app.get('/sign-token', testJwtCtrl.signToken);
+app.get('/verify-token', testJwtCtrl.signToken);
 
 
 app.listen(3000, () => {
