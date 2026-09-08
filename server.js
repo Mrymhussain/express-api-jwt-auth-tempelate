@@ -13,6 +13,7 @@ const authCtrl = require('./controllers/authCtrl');
 //middleware
 const isSignedIn = require('./middleware/isSignedIn.js');
 
+
 mongoose.connect(process.env.MONGODB_URL);
 
 mongoose.connection.on('connected', () => {
@@ -25,13 +26,13 @@ app.use(logger('dev'));
 
 
 // PUBLIC ROUTES
-app.post('/auth/sign-up', authCtrl.signup)
-app.post('/auth/sign-in', authCtrl.login)
+app.use('/auth/sign-up', authCtrl.signup)
+app.use('/auth/sign-in', authCtrl.login)
 
 //PROTECTED ROUTES
 
 
-app.get('/protected', isSignedIn ,(req,res) => {
+app.use('/protected', isSignedIn ,(req,res) => {
     try{
         const userPayload = req.user;
 
