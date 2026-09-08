@@ -1,7 +1,17 @@
+const jwt = require('jsonwebtoken');
+
 const signToken = (req, res) => {
-    res.json({ message: 'You are authorized!' });
+  const user = {
+    _id: 1,
+    username: 'test',
+    password: 'test',
   };
-  
-  module.exports = {
-    signToken,
-  };
+
+  const token = jwt.sign(user, process.env.JWT_SECRET);
+
+  res.json({ message: "You are Auth'd", token });
+};
+
+module.exports = {
+  signToken,
+};
