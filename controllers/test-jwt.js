@@ -11,9 +11,19 @@ const signToken = (req, res) => {
 
   res.json({ message: "You are Auth'd", token });
 };
- const verifyToken = (req,res)=> {
-  res.json({message: 'Token is valid'});
-}
+const verifyToken = (req,res) => {
+    try {
+    const token = req.headers.authorization.split(' ')[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    res.json({ decoded });
+  } catch (err) {
+    res.status(401).json({ err: 'Invalid token.' });
+  }
+};
+
+
 module.exports = {
   signToken,
   verifyToken,
