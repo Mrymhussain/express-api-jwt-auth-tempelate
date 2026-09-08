@@ -1,8 +1,7 @@
-const User = require("../models/user");
+const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const SALT_ROUDS = 10;
-const jwt = require('jsonwebtoken')
-
+const jwt = require('jsonwebtoken');
 
 const signup = async (req, res) => {
   try {
@@ -17,7 +16,11 @@ const signup = async (req, res) => {
     }
 
     // Encrypt the password
-    const hashedPassword = bcrypt.hashSync(req.body.password, SALT_ROUDS);
+    const hashedPassword = bcrypt.hashSync(
+      req.body.password,
+      SALT_ROUDS
+    );
+
     req.body.password = hashedPassword;
 
     // Create the new user
@@ -28,7 +31,10 @@ const signup = async (req, res) => {
       _id: user._id,
     };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      payload,
+      process.env.JWT_SECRET
+    );
 
     res.status(201).json({ user, token });
 
@@ -50,7 +56,10 @@ const login = async (req, res) => {
     }
 
     // Make sure the password matches
-    if (!bcrypt.compareSync(req.body.password, userInDatabase.password)) {
+    if (!bcrypt.compareSync(
+      req.body.password,
+      userInDatabase.password
+    )) {
       return res.status(401).json({ err: 'Invalid credentials' });
     }
 
@@ -60,7 +69,10 @@ const login = async (req, res) => {
       _id: userInDatabase._id,
     };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      payload,
+      process.env.JWT_SECRET
+    );
 
     res.json({ token });
 
@@ -71,5 +83,6 @@ const login = async (req, res) => {
 };
 
 module.exports = {
-    signup, login,
-}
+  signup,
+  login,
+};
