@@ -1,20 +1,23 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const isSignedIn = (req, res, next) => {
-  try {
-    const brearerToken = req.headers.authorization
-    if (!brearerToken) throw new Error ('Login Requried');
 
-    const token = brearerToken.spliy('')[1];
+const isSignedIn = (req,res,next) => {
+try{
+     const bearerToken = req.headers.authorization;
 
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+     if(!bearerToken) throw new Error ('Login Required');
 
-    req.user = payload;
+     const token = bearerToken.split(' ')[1];
 
-    next();
-  } catch (error) {
-    res.status(401).json({ err: 'Login required' });
-  }
-};
+      const payload = jwt.verify(token, process.env.JWT_SECRET);
+
+      req.user = payload;
+
+      next();
+
+}catch(err){
+    res.status(401).json({err: 'Login Required'});
+}
+}
 
 module.exports = isSignedIn;
